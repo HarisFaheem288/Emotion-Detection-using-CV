@@ -1,5 +1,6 @@
 streamlit
-opencv-python-headless  # Use the headless version to avoid GUI dependencies
+opencv-python-headless  # To avoid GUI dependencies
 numpy
 Pillow  # For image handling
 tensorflow
+base64  # For handling base64 image data
