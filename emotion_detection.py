@@ -14,9 +14,6 @@ emotion_labels = ['Angry', 'Disgusted', 'Fearful', 'Happy', 'Sad', 'Surprised', 
 # Streamlit app title
 st.title("Emotion Detection App")
 
-# Capture or upload an image
-st.write("Please upload an image or capture one using your webcam.")
-
 # Option for image upload
 uploaded_image = st.file_uploader("Upload an image", type=['jpg', 'jpeg', 'png'])
 
