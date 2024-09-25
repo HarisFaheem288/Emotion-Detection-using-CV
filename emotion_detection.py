@@ -48,6 +48,3 @@ if uploaded_image is not None:
 
     # Display the predicted emotion
     st.write(f"Predicted Emotion: {emotion}")
-
-# Add a footer or additional information if needed
-st.write("Developed by Haris. Feel free to explore and give feedback!")
