@@ -1,6 +1,5 @@
-streamlit==1.22.0
-opencv-python-headless==4.5.5.64
-numpy==1.21.2
-Pillow==8.4.0
-tensorflow==2.8.0
-base64
+streamlit
+opencv-python-headless==4.8.0.74  # Compatible version for Python 3.12
+numpy>=1.22  # Avoid versions with restricted Python compatibility
+Pillow==10.4.0
+tensorflow==2.17.0  # Compatible with Python 3.12
