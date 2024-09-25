@@ -1,6 +1,6 @@
-streamlit
-opencv-python-headless  # To avoid GUI dependencies
-numpy
-Pillow  # For image handling
-tensorflow
-base64  # For handling base64 image data
+streamlit==1.22.0
+opencv-python-headless==4.5.5.64
+numpy==1.21.2
+Pillow==8.4.0
+tensorflow==2.8.0
+base64
