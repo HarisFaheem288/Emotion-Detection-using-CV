@@ -6,6 +6,7 @@ from PIL import Image
 
 # Load the trained model
 model = load_model('emotion_detection_model.h5')
+
 # Emotion labels based on your training data
 emotion_labels = ['Angry', 'Disgusted', 'Fearful', 'Happy', 'Sad', 'Surprised', 'Neutral']
 
@@ -21,20 +22,23 @@ uploaded_image = st.file_uploader("Upload an image", type=['jpg', 'jpeg', 'png']
 # Option for capturing a single frame from webcam
 if st.button('Capture from webcam'):
     cap = cv2.VideoCapture(0)
-    ret, frame = cap.read()
-    if not ret:
-        st.error("Failed to capture image from the webcam.")
-        cap.release()
+    if not cap.isOpened():
+        st.error("Unable to access the webcam. Please check if it's connected.")
     else:
-        # Convert captured frame (BGR to RGB)
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        captured_image = Image.fromarray(frame_rgb)
-        uploaded_image = captured_image
-    cap.release()
+        ret, frame = cap.read()
+        if not ret:
+            st.error("Failed to capture image from the webcam.")
+        else:
+            # Convert captured frame (BGR to RGB)
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # Convert to PIL Image
+            uploaded_image = Image.fromarray(frame_rgb)
+            st.image(uploaded_image, caption="Captured Image", use_column_width=True)
+        cap.release()
 
 # Process the image if uploaded or captured
 if uploaded_image is not None:
-    # Convert to PIL image if captured from webcam
+    # Open the uploaded image if not from webcam
     if isinstance(uploaded_image, Image.Image):
         image = uploaded_image
     else:
@@ -60,3 +64,6 @@ if uploaded_image is not None:
     prediction = model.predict(image_reshaped)
     emotion_index = np.argmax(prediction[0])
     emotion = emotion_labels[emotion_index]
+
+    # Display the predicted emotion
+    st.write(f"Predicted Emotion: {emotion}")
