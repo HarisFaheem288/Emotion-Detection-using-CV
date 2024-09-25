@@ -5,7 +5,6 @@ The Emotion Detection App is a web application developed using Streamlit that le
 
 ## Features
 - Upload images in JPG, JPEG, or PNG format (up to 200MB).
-- Capture images directly from your webcam.
 - Real-time emotion detection using a pre-trained deep learning model.
 - User-friendly interface developed with Streamlit.
 
