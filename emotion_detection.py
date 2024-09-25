@@ -17,23 +17,6 @@ st.title("Emotion Detection App")
 # Option for image upload
 uploaded_image = st.file_uploader("Upload an image", type=['jpg', 'jpeg', 'png'])
 
-# Option for capturing a single frame from webcam
-if st.button('Capture from webcam'):
-    cap = cv2.VideoCapture(0)
-    if not cap.isOpened():
-        st.error("Unable to access the webcam. Please check if it's connected.")
-    else:
-        ret, frame = cap.read()
-        if not ret:
-            st.error("Failed to capture image from the webcam.")
-        else:
-            # Convert captured frame (BGR to RGB)
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # Convert to PIL Image
-            uploaded_image = Image.fromarray(frame_rgb)
-            st.image(uploaded_image, caption="Captured Image", use_column_width=True)
-        cap.release()
-
 # Process the image if uploaded or captured
 if uploaded_image is not None:
     # Open the uploaded image if not from webcam
