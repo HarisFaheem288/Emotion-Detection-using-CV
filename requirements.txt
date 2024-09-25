@@ -1,5 +1,5 @@
 streamlit
-tensorflow
-opencv-python
-pillow
+opencv-python-headless  # Use the headless version to avoid GUI dependencies
 numpy
+Pillow  # For image handling
+tensorflow
