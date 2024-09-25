@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
 from PIL import Image
-import base64
 
 # Load the trained model
 model = load_model('emotion_detection_model.keras')
@@ -20,52 +19,40 @@ st.write("Please upload an image or capture one using your webcam.")
 # Option for image upload
 uploaded_image = st.file_uploader("Upload an image", type=['jpg', 'jpeg', 'png'])
 
-# Web-based webcam capture
-st.write("Or capture an image from your webcam:")
-
-webcam_capture_html = """
-    <script>
-    function captureImage() {
-        var video = document.querySelector("#videoElement");
-        var canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        var dataURL = canvas.toDataURL('image/png');
-        streamlit.setComponentValue(dataURL);
-    }
-
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function(stream) {
-            var video = document.querySelector("#videoElement");
-            video.srcObject = stream;
-        })
-        .catch(function(error) {
-            console.log("Unable to access the webcam: ", error);
-        });
-    </script>
-
-    <video autoplay="true" id="videoElement" style="width: 100%; height: auto;"></video>
-    <button onclick="captureImage()">Capture Image</button>
-"""
-
-# Display the HTML and JavaScript for the webcam
-st.markdown(webcam_capture_html, unsafe_allow_html=True)
-
-# Capture the base64 string from JavaScript
-captured_image = st.experimental_get_query_params().get('dataURL', None)
-
-# If there's a captured image
-if captured_image:
-    # Convert the base64 image to a format that can be processed
-    img_data = base64.b64decode(captured_image.split(',')[1])
-    img = Image.open(io.BytesIO(img_data))
-    st.image(img, caption="Captured Image", use_column_width=True)
-    uploaded_image = img
+# Webcam capture button
+if st.button('Capture from webcam'):
+    cap = cv2.VideoCapture(0)
+    
+    # Check if webcam is accessible
+    if not cap.isOpened():
+        st.error("Unable to access the webcam. Please check if it's connected.")
+    else:
+        ret, frame = cap.read()
+        
+        # Check if frame is captured successfully
+        if not ret:
+            st.error("Failed to capture image from the webcam.")
+        else:
+            # Convert frame (BGR to RGB) for Streamlit display
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+            # Convert to PIL Image
+            captured_image = Image.fromarray(frame_rgb)
+            
+            # Display captured image
+            st.image(captured_image, caption="Captured Image", use_column_width=True)
+            
+            # Assign captured image to `uploaded_image` for further processing
+            uploaded_image = captured_image
+        
+        # Release the webcam
+        cap.release()
 
 # Process the image if uploaded or captured
 if uploaded_image is not None:
+    # Display the image in the Streamlit app
+    st.image(uploaded_image, caption="Uploaded or Captured Image", use_column_width=True)
+
     # Convert the image to grayscale
     image_gray = uploaded_image.convert('L')  # Convert to grayscale
 
