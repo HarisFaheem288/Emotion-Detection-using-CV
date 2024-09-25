@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 from PIL import Image
 
 # Load the trained model
-model = load_model('emotion_detection_model.h5')
+model = load_model('emotion_detection_model.keras')
 
 # Emotion labels based on your training data
 emotion_labels = ['Angry', 'Disgusted', 'Fearful', 'Happy', 'Sad', 'Surprised', 'Neutral']
@@ -67,3 +67,6 @@ if uploaded_image is not None:
 
     # Display the predicted emotion
     st.write(f"Predicted Emotion: {emotion}")
+
+# Add a footer or additional information if needed
+st.write("Developed by [Your Name]. Feel free to explore and give feedback!")
