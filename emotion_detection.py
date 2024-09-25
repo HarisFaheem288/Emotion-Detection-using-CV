@@ -3,10 +3,16 @@ import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
 from PIL import Image
-'''
+
 # Load the trained model
 model = load_model('emotion_detection_model.keras')
+st.write("Attempting to load the model...")
+model = load_model('emotion_detection_model.keras')
 
+    # Display the emotion prediction
+    st.write(f"Predicted Emotion: **{emotion}**")
+else:
+    st.write("Waiting for an image upload or capture.")
 # Emotion labels based on your training data
 emotion_labels = ['Angry', 'Disgusted', 'Fearful', 'Happy', 'Sad', 'Surprised', 'Neutral']
 
@@ -60,7 +66,7 @@ if uploaded_image is not None:
     # Predict the emotion
     prediction = model.predict(image_reshaped)
     emotion_index = np.argmax(prediction[0])
-    emotion = emotion_labels[emotion_index]'''
+    emotion = emotion_labels[emotion_index]
 st.write("Attempting to load the model...")
 model = load_model('emotion_detection_model.keras')
 
